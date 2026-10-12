@@ -1,6 +1,6 @@
 # Licences
 
-Copyright (c) 2026 Olly Stedall (https://diginode.tools)
+Copyright (c) 2026 Oliver Stedall (https://diginode.tools)
 
 - **WordPress plugin** (`wordpress/`): GPL-2.0-or-later - see [wordpress/diginode-widgets/LICENSE](wordpress/diginode-widgets/LICENSE).
 - **Embed scripts** (`embed/`): MIT - see [embed/LICENSE](embed/LICENSE).
