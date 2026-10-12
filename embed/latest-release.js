@@ -10,7 +10,7 @@
  *   data-lines="1"           Everything on one line (default: 2 lines)
  *   data-next="no"           Don't show the next release date. (By default it's shown only when there are changes
  *                            waiting to be released - so it never announces a release when there's nothing to release.)
- *   data-logo="yes"/"no"     Show the DigiNode logo on the left (default: yes, except on diginode.tools)
+ *   data-logo="no"           Hide the DigiNode logo on the left (shown by default)
  *   data-label="..."         The label text (default: "Latest release"; data-label="" hides it)
  *   data-link="..."          Where "See what's new" goes (default: the DigiNode Tools release notes)
  *   data-accent="#0066cc"    The accent colour
@@ -52,11 +52,13 @@
 
   // The next release Tuesday from today (first_release_day, then every every_days days)
   function nextReleaseDay(schedule) {
-    if (!schedule || !/^\d{4}-\d{2}-\d{2}$/.test(schedule.first_release_day || "") || !(schedule.every_days > 0)) return "";
+    if (!schedule || !/^\d{4}-\d{2}-\d{2}$/.test(schedule.first_release_day || "")) return "";
+    var every = parseInt(schedule.every_days, 10);
+    if (!(every >= 1 && every <= 366)) return "";   // Not a sensible schedule - don't show a next release date
     var day = 86400000, first = Date.parse(schedule.first_release_day + "T00:00:00Z");
     var now = new Date(), today = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
     var next = first;
-    if (today > first) next = first + Math.ceil((today - first) / day / schedule.every_days) * schedule.every_days * day;
+    if (today > first) next = first + Math.ceil((today - first) / day / every) * every * day;
     return new Date(next).toISOString().slice(0, 10);
   }
 
@@ -86,9 +88,7 @@
     style.textContent = CSS;
     root.appendChild(style);
 
-    var onDigiNodeSite = /(^|\.)diginode\.tools$/.test(location.hostname);
-    var logoOpt = host.getAttribute("data-logo");
-    var showLogo = logoOpt === "yes" || (logoOpt !== "no" && !onDigiNodeSite);
+    var showLogo = host.getAttribute("data-logo") !== "no";
 
     var box = el("div", "b" + (showLogo ? " lg" : "") + (host.getAttribute("data-lines") === "1" ? " one" : ""));
     var accent = host.getAttribute("data-accent");

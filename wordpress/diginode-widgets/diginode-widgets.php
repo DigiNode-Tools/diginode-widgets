@@ -3,7 +3,7 @@
  * Plugin Name:       DigiNode Widgets
  * Plugin URI:        https://github.com/DigiNode-Tools/diginode-widgets
  * Description:       Show the latest DigiNode Tools release on your site with the [diginode_latest_release] shortcode.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Olly Stedall (saltedlolly)
@@ -86,12 +86,16 @@ function diginode_widgets_has_unreleased_notes( $d ) {
  */
 function diginode_widgets_next_release_day( $d ) {
 	$s = isset( $d['schedule'] ) && is_array( $d['schedule'] ) ? $d['schedule'] : array();
-	if ( empty( $s['first_release_day'] ) || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $s['first_release_day'] ) || empty( $s['every_days'] ) ) {
+	if ( empty( $s['first_release_day'] ) || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $s['first_release_day'] ) ) {
 		return '';
+	}
+	$every_days = isset( $s['every_days'] ) ? (int) $s['every_days'] : 0;
+	if ( $every_days < 1 || $every_days > 366 ) {
+		return '';   // Not a sensible schedule - don't show a next release date
 	}
 	$first = strtotime( $s['first_release_day'] . ' 00:00:00 UTC' );
 	$today = strtotime( gmdate( 'Y-m-d' ) . ' 00:00:00 UTC' );
-	$every = (int) $s['every_days'] * DAY_IN_SECONDS;
+	$every = $every_days * DAY_IN_SECONDS;
 	$next  = $first;
 	if ( $today > $first ) {
 		$next = $first + (int) ceil( ( $today - $first ) / $every ) * $every;
@@ -116,7 +120,7 @@ function diginode_widgets_date( $ymd ) {
  *   lines="2"            2 = version and date, then the summary (default). 1 = everything on one line.
  *   next="auto"          auto = show the next release date only when there are changes waiting to be released
  *                        (so it never announces a release when there's nothing to release). no = never show it.
- *   logo="auto"          auto = show the DigiNode logo on the left, except on diginode.tools. yes / no.
+ *   logo="yes"           Show the DigiNode logo on the left (default). no = hide it.
  *   label="Latest release"
  *   link="..."           Where "See what's new" goes (default: the DigiNode Tools release notes).
  */
@@ -125,7 +129,7 @@ function diginode_widgets_latest_release_shortcode( $atts ) {
 		array(
 			'lines' => '2',
 			'next'  => 'auto',
-			'logo'  => 'auto',
+			'logo'  => 'yes',
 			'label' => 'Latest release',
 			'link'  => '',
 		),
@@ -146,9 +150,7 @@ function diginode_widgets_latest_release_shortcode( $atts ) {
 		$next = diginode_widgets_date( diginode_widgets_next_release_day( $d ) );
 	}
 	$one  = ( '1' === (string) $a['lines'] );
-	$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
-	$logo = 'yes' === strtolower( $a['logo'] )
-		|| ( 'no' !== strtolower( $a['logo'] ) && ! preg_match( '/(^|\.)diginode\.tools$/', $host ) );
+	$logo = 'no' !== strtolower( $a['logo'] );
 
 	$html  = '<div class="diginode-latest-release dlr-banner' . ( $one ? ' dlr-one-line' : '' ) . ( $logo ? ' dlr-with-logo' : '' ) . '">';
 	if ( $logo ) {
@@ -195,7 +197,7 @@ function diginode_widgets_styles() {
 .dlr-banner.dlr-one-line p{display:inline}
 .dlr-banner.dlr-one-line .dlr-summary::before{content:" \2014  "}
 ';
-	wp_register_style( 'diginode-widgets', false, array(), '1.0.0' );
+	wp_register_style( 'diginode-widgets', false, array(), '1.0.1' );
 	wp_enqueue_style( 'diginode-widgets' );
 	wp_add_inline_style( 'diginode-widgets', $css );
 }

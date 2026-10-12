@@ -26,7 +26,7 @@ Options:
 |---|---|
 | `lines="1"` | Everything on one line (the default is two lines). |
 | `next="no"` | Never show the next release date. By default it's shown only when there are changes waiting to be released. |
-| `logo="yes"` / `logo="no"` | Show or hide the DigiNode logo. By default it's shown, except on diginode.tools. |
+| `logo="no"` | Hide the DigiNode logo (shown by default). |
 | `label="..."` | The label text (default "Latest release"). `label=""` hides it. |
 | `link="https://..."` | Where "See what's new" goes (default: the DigiNode Tools release notes). |
 
@@ -34,7 +34,7 @@ Example: `[diginode_latest_release lines="1" next="no"]`
 
 To change the accent colour, add CSS such as `.dlr-banner { --dlr-accent: #0066cc; }`.
 
-The plugin checks for a new release at most once an hour, and keeps the last good copy in case it can't be reached.
+The plugin checks for a new release at most once an hour, and keeps the last good copy in case it can't be reached. Deleting the plugin removes everything it stored.
 
 ### On any other website
 
@@ -45,7 +45,7 @@ Add this where you want the banner:
 <script src="https://cdn.jsdelivr.net/gh/DigiNode-Tools/diginode-widgets@1/embed/latest-release.js" async></script>
 ```
 
-Options are attributes on the `div`: `data-lines="1"`, `data-next="no"`, `data-logo="yes"` / `"no"`, `data-label="..."`, `data-link="https://..."` and `data-accent="#0066cc"`.
+Options are attributes on the `div`: `data-lines="1"`, `data-next="no"`, `data-logo="no"`, `data-label="..."`, `data-link="https://..."` and `data-accent="#0066cc"`.
 
 The banner is drawn in its own shadow DOM, so your site's styles can't affect it and it can't affect your site. The script is small, has no dependencies, and only fetches two public files from GitHub (below). The `@1` in the address means you get fixes automatically, but never a change that could break your page.
 
