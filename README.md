@@ -59,7 +59,7 @@ It has the version, date, summary, highlights (each note's type and title), link
 
 ## Licence
 
-The WordPress plugin is GPL-2.0-or-later. The embed script is MIT.
+The WordPress plugin is GPL-2.0-or-later. The embed scripts are MIT. The DigiNode Tools logo isn't covered by either: it may be shown as part of these widgets, and used to link to or write about DigiNode Tools - see [LICENCE.md](LICENCE.md) and the [name and logo policy](https://github.com/DigiNode-Tools/diginode-tools/blob/main/TRADEMARKS.md).
 
 ## About
 
