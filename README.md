@@ -63,4 +63,4 @@ The WordPress plugin is GPL-2.0-or-later. The embed scripts are MIT. The DigiNod
 
 ## About
 
-Made by Olly Stedall ([@saltedlolly](https://github.com/saltedlolly)), the developer of DigiNode Tools. If you find DigiNode Tools useful, please consider [sponsoring it](https://github.com/sponsors/DigiNode-Tools).
+Made by Olly Stedall ([@saltedlolly](https://github.com/saltedlolly)), the developer of DigiNode Tools. If you find DigiNode Tools useful, please consider sponsoring it on [GitHub](https://github.com/sponsors/DigiNode-Tools) or [Ko-fi](https://ko-fi.com/diginode).
